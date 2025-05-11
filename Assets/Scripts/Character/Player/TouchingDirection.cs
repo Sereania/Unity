@@ -5,7 +5,7 @@ public class TouchingDirection : MonoBehaviour
     CapsuleCollider2D _tourchingCollider;
     
     RaycastHit2D[] _groundHits = new RaycastHit2D[5];
-    [SerializeField] private float groundHitDistance = 0.1f;
+    [SerializeField] private float groundHitDistance = 0.2f;
     public bool _isGrounded = false;
 
     [SerializeField] private float wallHitDistance = 0.2f;

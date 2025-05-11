@@ -33,10 +33,10 @@ public class Charactercontrol : MonoBehaviour
     public LayerMask ground;
     public bool IsMoving;
     public bool isJump = false;
-    [SerializeField] private int jumpCount = 1;
-    [SerializeField] private int leftJumpCount = 1;
-
-    
+    [SerializeField] private int jumpCount = 2;
+    [SerializeField] private int leftJumpCount = 2;
+    public bool Isfalling = false;
+    public float yVelocity;
     TouchingDirection _TouchingDirections;
     void Start()
     {
@@ -48,19 +48,37 @@ public class Charactercontrol : MonoBehaviour
     // Update Is called once per frame
     void Update()
     {
+        
         float currentSpeed = IsSplint ? splintSpeed : walkSpeed;
         currentSpeed = _TouchingDirections._isWalled ? 0 : currentSpeed;
+        currentSpeed = _ani.GetBool(AnimationStrings.canMove) ? currentSpeed : 0;
+        Checkfalling();
         CheckGround();
         _rb.linearVelocity = new Vector2(_inputDirection.x * currentSpeed, _rb.linearVelocity.y);
+        
+
     }
+    public void Checkfalling()
+    {
+        if (_rb.linearVelocity.y < 0 && isJump == true)
+        {
+            Isfalling = true;
+            _ani.SetFloat(AnimationStrings.yVelocity, _rb.linearVelocity.y);            
+        }
+    }
+
+
     public void CheckGround()
     {
         Debug.Log($"grounding checked");
-        if (_TouchingDirections._isGrounded == true && isJump == true)
+        if (_TouchingDirections._isGrounded == true && Isfalling == true )  //isJump == true
         {
             leftJumpCount = jumpCount;
             _ani.SetBool(AnimationStrings.IsJump, false);
-            isJump = false;            
+            _ani.SetBool(AnimationStrings.Isfalling, false);
+            isJump = false;
+            Isfalling = false;
+            
         }
     }
     
@@ -88,11 +106,12 @@ public class Charactercontrol : MonoBehaviour
         // if(callback.started && IsGrounded == true)
         if (callback.started && leftJumpCount > 0)
         {
+            _ani.SetTrigger(AnimationStrings.IsJump);
             _ani.SetBool(AnimationStrings.IsJump, true);
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpPower);
             leftJumpCount = leftJumpCount - 1;
             isJump = true;
-            
+                        
         }
         else if (callback.canceled)
         {
@@ -126,5 +145,22 @@ public class Charactercontrol : MonoBehaviour
         }
 
 
+    }
+    private int attcount = 0;
+    public void OnGroundAttackInput(InputAction.CallbackContext callback)
+    {
+        if(callback.started)
+        {
+            _ani.SetTrigger(AnimationStrings.Attack);
+            if (attcount < 2)
+            {
+                attcount++;
+                _ani.SetFloat.
+            }
+        }
+        else if (callback.canceled)
+        {            
+        
+        }
     }
 }
