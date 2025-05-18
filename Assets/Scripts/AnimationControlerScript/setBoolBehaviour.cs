@@ -23,9 +23,9 @@ public class setBoolBehaviour : StateMachineBehaviour
     {
         if (updateOnstate)
         {
-            animator.SetBool(AttN, valueOnExit);
+            //animator.SetBool(AttN, valueOnExit);
         }
-        animator.SetFloat(AttN, 0);
+        //animator.SetFloat(AttN, 0);
     }
 
 

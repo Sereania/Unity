@@ -155,7 +155,7 @@ public class Charactercontrol : MonoBehaviour
             if (attcount < 2)
             {
                 attcount++;
-                _ani.SetFloat.
+                //_ani.SetFloat.
             }
         }
         else if (callback.canceled)
